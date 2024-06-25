@@ -1,0 +1,45 @@
+This AWS CloudFormation template sets up a Linux EC2 instance with Apache installed, using existing network resources such as a VPC, Public Subnet, and Security Group. Below is an analysis and summary of the key components of the template:
+
+Key Components
+
+Parameters
+•	VPC: Accepts an existing VPC ID.
+•	PublicSubnet: Accepts an existing public subnet ID.
+•	InstanceType: Allows selection of EC2 instance types with a default of t2.micro.
+•	AMIId: Specifies the Amazon Machine Image (AMI) ID with a default value.
+•	KeyName: Specifies the name of an existing EC2 KeyPair.
+•	InstanceNameTag: Provides a name tag for the EC2 instance.
+•	EnvironmentTag: Provides an environment tag for the EC2 instance.
+
+Mappings
+•	RegionMap: Maps regions to their corresponding AMI IDs.
+
+Resources
+•	myEIP: Allocates an Elastic IP (EIP) address.
+•	EC2Instance: Creates an EC2 instance with the specified parameters and user data to install Apache and create a sample webpage.
+•	EIPAssociation: Associates the Elastic IP with the EC2 instance.
+•	WebServerSecurityGroup: Creates a security group allowing HTTP traffic on port 80.
+
+Outputs
+•	InstanceId: Exports the EC2 instance ID.
+•	InstancePublicIp: Exports the public IP address of the EC2 instance.
+•	VPCId: Exports the VPC ID.
+•	PublicSubnetId: Exports the subnet ID.
+•	WebServerSecurityGroupId: Exports the security group ID.
+•	PrivateIPAddress: Exports the private IP address of the EC2 instance.
+•	PublicDNSName: Exports the public DNS name of the EC2 instance.
+
+Notes on Changes
+1.	UserData: The UserData section includes a script that:
+o	Updates the system.
+o	Installs Apache.
+o	Creates a sample HTML file.
+o	Starts and enables the Apache service.
+2.	Tags: The EC2 instance is tagged with Name and Environment.
+3.	Outputs: Includes outputs for PrivateIPAddress and PublicDNSName, which are necessary for the assignment.
+
+Additional Information
+•	Ensure that the provided AMI ID corresponds to a Linux image compatible with the instance type.
+•	The security group allows all inbound traffic on port 80 (HTTP), which is suitable for a public web server but should be carefully considered in a production environment.
+This template provides a robust starting point for deploying a web server in AWS using CloudFormation, leveraging existing network infrastructure.
+
